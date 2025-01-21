@@ -24,7 +24,7 @@ struct HomeView: View {
                     
                     // Najczęściej słuchane piosenki
                     VStack(alignment: .leading, spacing: 10) {
-                        Text("Your top listened songs of last week")
+                        Text("Your top listened songs of last month")
                             .font(.title3)
                             .foregroundColor(.white)
 

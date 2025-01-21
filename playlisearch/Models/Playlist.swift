@@ -6,7 +6,7 @@
 //
 import Foundation
 
-struct Playlist: Identifiable, Codable {
+struct Playlist: Identifiable, Codable, Equatable {
     let id: UUID
     let name: String
     let description: String
