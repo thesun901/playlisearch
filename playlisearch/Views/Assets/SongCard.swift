@@ -10,7 +10,7 @@ struct SongCard: View {
     let song: Song
     var body: some View {
         HStack {
-            AsyncImage(url: URL(string: song.imageUrl)) { image in
+            AsyncImage(url: URL(string: song.imageUrl ?? "")) { image in
                 image.resizable()
             } placeholder: {
                 Color.gray

@@ -1,9 +1,12 @@
 import SwiftUI
 
 struct PlaylistDetailsView: View {
-    let playlist: Playlist
-    
+    @StateObject private var viewModel: PlaylistDetailsViewModel
     @EnvironmentObject var favoritesManager: FavoritesManager
+
+    init(playlist: Playlist) {
+        _viewModel = StateObject(wrappedValue: PlaylistDetailsViewModel(playlist: playlist))
+    }
 
     var body: some View {
         ScrollView {
@@ -11,31 +14,31 @@ struct PlaylistDetailsView: View {
                 // Playlist Header
                 HStack(alignment: .center) {
                     Spacer()
-                    
-                    AsyncImage(url: URL(string: self.playlist.imageUrl)) { image in
-                            image.resizable()
-                        } placeholder: {
-                            Color.gray
-                        }
-                        .frame(width: 150, height: 150)
-                        .cornerRadius(5)
-                    
+
+                    AsyncImage(url: URL(string: viewModel.playlist.imageUrl)) { image in
+                        image.resizable()
+                    } placeholder: {
+                        Color.gray
+                    }
+                    .frame(width: 150, height: 150)
+                    .cornerRadius(5)
+
                     Spacer()
 
                     // Icons Section
                     VStack(spacing: 15) {
                         Button(action: {
-                            if favoritesManager.isFavorite(playlist) {
-                                favoritesManager.removeFromFavorites(playlist)
+                            if favoritesManager.isFavorite(viewModel.playlist) {
+                                favoritesManager.removeFromFavorites(viewModel.playlist)
                             } else {
-                                favoritesManager.addToFavorites(playlist)
+                                favoritesManager.addToFavorites(viewModel.playlist)
                             }
                         }) {
-                            Image(systemName: favoritesManager.isFavorite(playlist) ? "heart.fill" : "heart")
+                            Image(systemName: favoritesManager.isFavorite(viewModel.playlist) ? "heart.fill" : "heart")
                                 .font(.title)
-                                .foregroundColor(favoritesManager.isFavorite(playlist) ? .red : .gray)
+                                .foregroundColor(favoritesManager.isFavorite(viewModel.playlist) ? .red : .gray)
                         }
-                        
+
                         Spacer()
 
                         Button(action: {
@@ -45,13 +48,12 @@ struct PlaylistDetailsView: View {
                                 .font(.title)
                                 .foregroundColor(.gray)
                         }
-                        
+
                         Spacer()
-                        
+
                         Button(action: {
                             print("show playlist tapped")
                         }) {
-                            
                             Image(systemName: "eye")
                                 .font(.title)
                                 .foregroundColor(.gray)
@@ -59,15 +61,16 @@ struct PlaylistDetailsView: View {
                     }
                 }
                 .padding(.horizontal)
-                
+
                 VStack(alignment: .leading) {
-                    Text(playlist.name)
+                    Text(viewModel.playlist.name)
                         .font(.title)
                         .fontWeight(.bold)
                         .foregroundColor(.white)
 
+
                     HStack {
-                        ForEach(playlist.tags, id: \.self) { tag in
+                        ForEach(viewModel.playlist.tags, id: \.self) { tag in
                             Text(tag)
                                 .font(.caption)
                                 .padding(5)
@@ -77,22 +80,33 @@ struct PlaylistDetailsView: View {
                         }
                     }
 
-                    Text("\(playlist.songCount) songs")
+                    Text("\(viewModel.playlist.songCount) songs")
                         .font(.subheadline)
                         .foregroundColor(.gray)
                 }
                 .padding(.horizontal)
 
                 // Songs List
-                VStack(alignment: .leading, spacing: 10) {
-                    ForEach(playlist.songs) { song in
-                        SongCard(song: song)
+                if viewModel.isLoadingTracks {
+                    VStack {
+                        ProgressView("Loading tracks...")
+                            .foregroundColor(.gray)
+                            .padding(.top)
                     }
+                } else {
+                    VStack(alignment: .leading, spacing: 10) {
+                        ForEach(viewModel.playlist.songs) { song in
+                            SongCard(song: song)
+                        }
+                    }
+                    .padding(.horizontal)
                 }
-                .padding(.horizontal)
             }
             .padding(.vertical)
         }
         .background(Color.black.ignoresSafeArea())
+        .onAppear {
+            viewModel.fetchTracksIfNeeded()
+        }
     }
 }

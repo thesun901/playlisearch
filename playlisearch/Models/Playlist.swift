@@ -6,8 +6,8 @@
 //
 import Foundation
 
-struct Playlist: Identifiable, Codable, Equatable {
-    let id: UUID
+struct Playlist: Identifiable, Codable, Equatable, Hashable {
+    let id: String
     let name: String
     let description: String
     let imageUrl: String

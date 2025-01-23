@@ -34,9 +34,15 @@ class FavoritesManager: ObservableObject {
     }
 
     private func loadFavorites() {
-        if let data = UserDefaults.standard.data(forKey: favoritesKey),
-           let decoded = try? JSONDecoder().decode([Playlist].self, from: data) {
-            favorites = decoded
+        if let data = UserDefaults.standard.data(forKey: favoritesKey) {
+            do {
+                let decoded = try JSONDecoder().decode([Playlist].self, from: data)
+                favorites = decoded
+            } catch {
+                print("Failed to decode favorites, clearing old data: \(error)")
+                UserDefaults.standard.removeObject(forKey: favoritesKey)
+                favorites = []
+            }
         }
     }
 }

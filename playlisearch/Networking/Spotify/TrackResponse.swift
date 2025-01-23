@@ -34,6 +34,7 @@ struct SpotifyTopTracksResponse: Codable {
 }
 
 struct SpotifyTrack: Codable {
+    let id: String
     let name: String
     let durationMs: Int
     let artists: [SpotifyArtist]
@@ -43,8 +44,6 @@ struct SpotifyTrack: Codable {
 struct SpotifyArtist: Codable {
     let id: String
     let name: String
-    let genres: [String]
-    let popularity: Int
 }
 struct SpotifyAlbum: Codable {
     let images: [SpotifyImage]

@@ -2,7 +2,7 @@ import Foundation
 extension PlaylistAPI {
     func toPlaylist() -> Playlist {
         return Playlist(
-            id: UUID(), // Generate a new UUID for Playlist
+            id: self.id, // Generate a new UUID for Playlist
             name: self.name,
             description: self.description,
             imageUrl: self.imageURL,

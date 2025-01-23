@@ -43,13 +43,21 @@ class ExploreViewModel: ObservableObject {
                 case .success(let playlistsAPI):
                     let playlists = playlistsAPI.map { apiPlaylist in
                         Playlist(
-                            id: UUID(), // Generate a new UUID since `PlaylistAPI` uses a string ID
+                            id: apiPlaylist.id,
                             name: apiPlaylist.name,
                             description: apiPlaylist.description,
                             imageUrl: apiPlaylist.imageURL,
                             songCount: apiPlaylist.songsCount,
                             tags: apiPlaylist.categories,
-                            songs: [] // Songs are not fetched here; they can be populated separately
+                            songs: apiPlaylist.songs.map { apiSong in
+                                Song(
+                                    id: apiSong.id,
+                                    title: apiSong.name,
+                                    artist: apiSong.artistName,
+                                    duration: apiSong.duration,
+                                    imageUrl: apiSong.imageURL
+                                )
+                            }
                         )
                     }
                     self?.playlists.append(contentsOf: playlists)

@@ -6,11 +6,11 @@
 //
 import Foundation
 
-struct Song: Identifiable, Codable, Equatable{
-    let id: UUID
+struct Song: Identifiable, Codable, Equatable, Hashable{
+    let id: String
     let title: String
     let artist: String
     let duration: Int
-    let imageUrl: String
+    let imageUrl: String?
 }
 

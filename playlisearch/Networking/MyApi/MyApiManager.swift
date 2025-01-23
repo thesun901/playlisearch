@@ -1,6 +1,24 @@
 import Foundation
 
-struct PlaylistAPI: Codable, Equatable {
+struct SongAPI: Codable {
+    let id: String
+    let name: String
+    let imageURL: String
+    let artistName: String
+    let artistID: String
+    let duration: Int
+
+    enum CodingKeys: String, CodingKey {
+        case id
+        case name
+        case imageURL = "image_url"
+        case artistName = "artist_name"
+        case artistID = "artist_id"
+        case duration
+    }
+}
+
+struct PlaylistAPI: Codable {
     let id: String
     let name: String
     let imageURL: String
@@ -8,7 +26,8 @@ struct PlaylistAPI: Codable, Equatable {
     let songsCount: Int
     let followersCount: Int
     let categories: [String]
-    
+    let songs: [SongAPI]
+
     enum CodingKeys: String, CodingKey {
         case id
         case name
@@ -17,6 +36,7 @@ struct PlaylistAPI: Codable, Equatable {
         case songsCount = "songs_count"
         case followersCount = "followers_count"
         case categories
+        case songs
     }
 }
 

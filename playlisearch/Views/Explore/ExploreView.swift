@@ -7,16 +7,16 @@ struct ExploreView: View {
         NavigationView {
             ScrollView {
                 LazyVStack {
-                    ForEach(viewModel.playlists, id: \.id) { playlist in
-                        PlaylistCardView(playlist: playlist)
+                    ForEach(Array(viewModel.playlists.enumerated()), id: \.offset) { index, playlist in
+                        PlaylistCardView(playlist: playlist) // Ensure uniqueness at runtime
                             .padding(.horizontal)
                             .onAppear {
-                                if playlist == viewModel.playlists.last {
+                                if index >= viewModel.playlists.count - 5 {
                                     viewModel.fetchMorePlaylists()
                                 }
                             }
                     }
-                    
+
                     if viewModel.isLoading {
                         ProgressView()
                             .padding()
@@ -28,7 +28,11 @@ struct ExploreView: View {
             .toolbarColorScheme(.dark, for: .navigationBar)
             .navigationTitle("Explore")
             .onAppear {
-                viewModel.initializeExploreView()
+                if viewModel.playlists.isEmpty {
+                    viewModel.initializeExploreView()
+                }
+                
+
             }
         }
     }
