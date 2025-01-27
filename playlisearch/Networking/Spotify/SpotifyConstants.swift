@@ -16,7 +16,7 @@ enum SpotifyConstants {
     static let clientSecret = env["CLIENT_SECRET"] ?? ""
     static let redirectUri = "myapp://spotify-callback"
     static let responseType = "token"
-    static let scopes = "user-top-read"
+    static let scopes = "user-top-read user-follow-modify playlist-modify-public playlist-modify-private"
     
     static var authParams = [
         "response_type": responseType,

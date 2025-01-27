@@ -1,9 +1,3 @@
-//
-//  RecommendedPlaylistView.swift
-//  playlisearch
-//
-//  Created by Oliwier Dygdałowicz on 05/01/2025.
-//
 import SwiftUI
 
 
@@ -38,7 +32,7 @@ struct RecommendedPlaylistView: View {
                                     .padding(5)
                                     .background(Color.orange)
                                     .cornerRadius(5)
-                                    .foregroundColor(.white) // Tekst w tagach
+                                    .foregroundColor(.white)
                             }
                         }
                         
@@ -48,7 +42,7 @@ struct RecommendedPlaylistView: View {
                     }
                 }
                 .padding()
-                .background(Color.black.opacity(0.8)) // Czarny z lekką przezroczystością
+                .background(Color.black.opacity(0.8))
                 .cornerRadius(10)
             }
         }

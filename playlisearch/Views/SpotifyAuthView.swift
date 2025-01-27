@@ -1,11 +1,3 @@
-//
-//  SpotifyAuthView.swift
-//  playlisearch
-//
-//  Created by Oliwier Dygdałowicz on 18/01/2025.
-//
-
-
 import SwiftUI
 @preconcurrency import WebKit
 

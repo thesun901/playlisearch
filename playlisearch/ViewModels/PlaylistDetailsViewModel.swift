@@ -7,6 +7,7 @@
 
 
 import Foundation
+import UIKit
 
 class PlaylistDetailsViewModel: ObservableObject {
     @Published var playlist: Playlist
@@ -40,6 +41,29 @@ class PlaylistDetailsViewModel: ObservableObject {
                     )
                 case .failure(let error):
                     print("Failed to fetch tracks: \(error)")
+                }
+            }
+        }
+    }
+    
+    
+    func openInSpotify() {
+        guard let url = URL(string: "https://open.spotify.com/playlist/\(playlist.id)") else { return }
+        if UIApplication.shared.canOpenURL(url) {
+            UIApplication.shared.open(url)
+        } else {
+            print("Cannot open Spotify URL")
+        }
+    }
+
+    func followOnSpotify() {
+        SpotifyManager.shared.followPlaylist(playlistID: playlist.id) { result in
+            DispatchQueue.main.async {
+                switch result {
+                case .success:
+                    print("Successfully followed playlist.")
+                case .failure(let error):
+                    print("Failed to follow playlist: \(error)")
                 }
             }
         }

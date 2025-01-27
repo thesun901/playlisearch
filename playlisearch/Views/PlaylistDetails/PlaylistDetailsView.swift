@@ -3,6 +3,7 @@ import SwiftUI
 struct PlaylistDetailsView: View {
     @StateObject private var viewModel: PlaylistDetailsViewModel
     @EnvironmentObject var favoritesManager: FavoritesManager
+    @State private var showSuccess = false
 
     init(playlist: Playlist) {
         _viewModel = StateObject(wrappedValue: PlaylistDetailsViewModel(playlist: playlist))
@@ -11,7 +12,6 @@ struct PlaylistDetailsView: View {
     var body: some View {
         ScrollView {
             VStack(alignment: .leading, spacing: 20) {
-                // Playlist Header
                 HStack(alignment: .center) {
                     Spacer()
 
@@ -25,7 +25,6 @@ struct PlaylistDetailsView: View {
 
                     Spacer()
 
-                    // Icons Section
                     VStack(spacing: 15) {
                         Button(action: {
                             if favoritesManager.isFavorite(viewModel.playlist) {
@@ -41,18 +40,28 @@ struct PlaylistDetailsView: View {
 
                         Spacer()
 
-                        Button(action: {
-                            print("add playlist tapped")
-                        }) {
-                            Image(systemName: "plus.circle")
-                                .font(.title)
-                                .foregroundColor(.gray)
-                        }
+                            Button(action: {
+                                SpotifyManager.shared.followPlaylist(playlistID: viewModel.playlist.id) { result in
+                                    switch result {
+                                    case .success:
+                                        showSuccess = true
+                                    case .failure(let error):
+                                        print("Failed to follow playlist: \(error)")
+                                    }
+                                }
+                            }) {
+                                Image(systemName: showSuccess ? "checkmark.circle.fill" : "plus.circle")
+                                    .font(.title)
+                                    .foregroundColor(showSuccess ? .green : .gray)
+                            }
+                            .animation(.easeInOut, value: showSuccess)
+
+
 
                         Spacer()
 
                         Button(action: {
-                            print("show playlist tapped")
+                            viewModel.openInSpotify()
                         }) {
                             Image(systemName: "eye")
                                 .font(.title)

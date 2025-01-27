@@ -51,6 +51,8 @@ struct FavoritesView: View {
                 .padding()
             }
             .background(Color.black.ignoresSafeArea())
+            .navigationBarTitleDisplayMode(.inline)
+            .toolbarColorScheme(.dark, for: .navigationBar)
             .navigationTitle("Favorites")
         }
     }
