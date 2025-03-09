@@ -19,21 +19,21 @@ Playlisearch is a mobile application that helps users explore and categorize Spo
 
 ## 🚀 Getting Started  
 
-### 1⃣ Clone the repository  
+### Clone the repository  
 ```bash
 git clone https://github.com/thesun901/playlisearch.git
 cd playlisearch
 ```
 
-### 2⃣ Backend Setup (FastAPI)  
+### Backend Setup (FastAPI)  
 For backend setup please see [playlisearch-backend repository](https://github.com/thesun901/playlisearch-backend)
 
-### 3⃣ iOS App Setup  
+### iOS App Setup  
 1. Open the `Playlisearch.xcodeproj` in Xcode.  
 2. Ensure you have an active **Spotify Developer App** with proper API keys.  
 3. Run the app on a simulator or connected iPhone.
 
-### 4⃣ Spotify API Configuration  
+### Spotify API Configuration  
 You'll need a **Spotify Developer Account** to get API credentials.  
 
 1. Go to [Spotify Developer Dashboard](https://developer.spotify.com/dashboard).  
